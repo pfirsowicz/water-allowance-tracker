@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased - automated verification
+
+- Added a read-only GitHub Actions workflow for PRs and main pushes on standard public-repository Ubuntu runners.
+- CI checks reproducible installation, unit tests, JavaScript syntax, offline Chrome workflows and an isolated MySQL 8 HTTP integration test.
+- Added a README build-status badge. Production deployment and data are excluded from CI.
+
+
 ## Unreleased - AdminLTE dashboard redesign
 
 - Replaced the minimal screen with a responsive AdminLTE 4.10.0 dashboard.

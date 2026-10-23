@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# The workflow does not publish packages, push code, or access repository secrets.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Tests / browser / MySQL
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    # Fresh, disposable database. Never connect a CI job to production.
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ci-only-test-password
+          MYSQL_DATABASE: water_test_ci
+        ports:
+          - 33329:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=20
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version: "22"
+          package-manager-cache: false
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Run unit and static-demo tests
+        run: npm test
+
+      - name: Check JavaScript syntax
+        run: npm run check
+
+      - name: Verify responsive browser workflows
+        run: |
+          command -v google-chrome
+          npm run test:browser
+
+      - name: Run isolated MySQL/API integration test
+        env:
+          WATER_TEST_MYSQL: "1"
+          WATER_TEST_DB_HOST: 127.0.0.1
+          WATER_TEST_DB_PORT: "33329"
+          WATER_TEST_DB_NAME: water_test_ci
+          WATER_TEST_DB_USER: root
+          WATER_TEST_DB_PASSWORD: ci-only-test-password
+        run: node --test test/integration.mysql.test.js
