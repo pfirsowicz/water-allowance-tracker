@@ -153,6 +153,24 @@ function calculate({ reportError = false } = {}) {
   }
 }
 
+function renderUsageChart() {
+  const container = $("usageChart");
+  try {
+    const settings = {
+      baselineDate: WaterCalc.ddmmyyyyToIso($("initialDate").value),
+      baselineReading: Number($("initialReading").value),
+      dailyAllowance: Number($("dailyLimit").value),
+    };
+    WaterUsageChart.draw(container, WaterCalc.buildUsageIntervals(state.readings, settings));
+  } catch (err) {
+    container.replaceChildren();
+    const note = document.createElement("p");
+    note.className = "usage-empty";
+    note.textContent = "Unable to plot this history: " + err.message;
+    container.appendChild(note);
+  }
+}
+
 function updateSettingsSummary() {
   const daily = Number($("dailyLimit").value);
   $("settingsSummary").textContent = Number.isFinite(daily) && daily > 0
@@ -211,6 +229,7 @@ async function saveSettings() {
       : "Settings stored in MySQL.";
     updateSettingsSummary();
     calculate();
+    renderUsageChart();
     showSuccess("Allowance settings saved.");
   } catch (err) {
     showError(err.message);
@@ -279,6 +298,7 @@ function renderReadings() {
     cell.colSpan = 6;
     body.appendChild(row);
     $("readingsMeta").textContent = "No readings recorded.";
+    renderUsageChart();
     return;
   }
 
@@ -324,6 +344,7 @@ function renderReadings() {
   });
 
   $("readingsMeta").textContent = `Showing ${state.readings.length} most recent reading${state.readings.length === 1 ? "" : "s"}.`;
+  renderUsageChart();
 }
 
 async function loadReadings() {
@@ -336,6 +357,7 @@ async function loadReadings() {
     state.readings = [];
     $("readingsBody").innerHTML = '<tr><td colspan="6" class="muted">Failed to load readings.</td></tr>';
     $("readingsMeta").textContent = err.message;
+    renderUsageChart();
   }
 }
 
@@ -397,6 +419,7 @@ function bindEvents() {
     $(id).addEventListener("input", () => {
       if (id === "dailyLimit") updateSettingsSummary();
       calculate();
+      if (["initialDate", "initialReading", "dailyLimit"].includes(id)) renderUsageChart();
     });
     $(id).addEventListener("keydown", (event) => {
       if (event.key === "Enter" && (id === "currentDate" || id === "currentReading")) {

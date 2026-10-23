@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - architecture diagrams and interval usage chart
+
+- Replaced outdated architecture notes with Mermaid system and transaction-flow diagrams, boundaries and engineering trade-offs.
+- Added a dependency-free SVG chart of average litres/day between observations, with a daily allowance reference and accessible interval detail.
+- Mirrored charts in the synthetic GitHub Pages demo, added DST/interval unit tests and browser regression assertions.
+
 ## Unreleased - API and database regression coverage
 
 - Extended MySQL-backed tests for rollback after real insert/update/delete statements, concurrent conflicting create/update requests, and duplicate-index integrity.

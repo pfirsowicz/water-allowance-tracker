@@ -17,4 +17,8 @@ for (const [src, name] of [
 }
 fs.copyFileSync(path.join(root, "public/assets/styles.css"),
                 path.join(root, "docs/demo/assets/styles.css"));
+for (const script of ["calculations.js", "usage-chart.js"]) {
+  fs.copyFileSync(path.join(root, "public/assets", script),
+                  path.join(root, "docs/demo/assets", script));
+}
 console.log("Synced AdminLTE 4 assets and Waterline stylesheet.");

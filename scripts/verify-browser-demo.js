@@ -32,6 +32,12 @@ const { chromium } = require("playwright-core");
       await page.waitForFunction(() =>
         document.querySelector("#remainingOut")?.textContent.includes("1,600"));
       assert.equal(await page.locator("#readingsBody tr").count(), 4);
+      await page.locator('#usageChart svg[role="img"]').waitFor();
+      assert.equal(await page.locator("#usageChart rect[data-interval-end]").count(), 4);
+      assert.equal(await page.locator("#usageChart .usage-bar-over").count(), 1);
+      assert.equal(await page.locator("#usageChart .usage-allowance-line").count(), 1);
+      assert.match(await page.locator("#usageChart .usage-allowance-label").textContent(), /800 L\/day/);
+      assert.equal(await page.locator("#usageChart .visually-hidden li").count(), 4);
 
       const measurements = await page.evaluate(() => ({
         inner: window.innerWidth,
@@ -51,6 +57,7 @@ const { chromium } = require("playwright-core");
         await page.locator("#currentReading").fill("110000");
         await page.locator("#saveBtn").click();
         await page.waitForFunction(() => document.querySelectorAll("#readingsBody tr").length === 5);
+        assert.equal(await page.locator("#usageChart rect[data-interval-end]").count(), 5);
         assert.match(await page.locator("#successBox").textContent(), /saved/i);
 
         await page.locator("#readingsBody tr").first().locator("button").first().click();
@@ -64,11 +71,14 @@ const { chromium } = require("playwright-core");
         page.once("dialog", dialog => dialog.accept());
         await page.locator("#readingsBody tr").first().locator("button.danger").click();
         await page.waitForFunction(() => document.querySelectorAll("#readingsBody tr").length === 4);
+        assert.equal(await page.locator("#usageChart rect[data-interval-end]").count(), 4);
 
         await page.locator("#settingsCard summary").click();
         await page.locator("#dailyLimit").fill("850");
         await page.locator("#saveSettingsBtn").click();
         await page.waitForFunction(() => document.querySelector("#settingsSummary")?.textContent.includes("850"));
+        assert.match(await page.locator("#usageChart .usage-allowance-label").textContent(), /850 L\/day/);
+        assert.equal(await page.locator("#usageChart .usage-bar-over").count(), 0);
 
         await page.locator("#exportBtn").click();
         assert.equal(await page.locator("#readingsBody tr").count(), 4);

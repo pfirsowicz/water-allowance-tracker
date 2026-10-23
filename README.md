@@ -12,6 +12,8 @@ The public demo stores synthetic readings only in browser memory. It never conne
 
 ## Features
 
+- Historical **average litres/day between consecutive meter readings**, shown in an accessible SVG bar chart against the configurable allowance. The chart never invents daily readings.
+
 - Dashboard KPI cards: remaining allowance, status, average and total use
 - Responsive date and water-meter reading entry
 - Validated CRUD and CSV export of reading history
@@ -33,6 +35,10 @@ Authentication defaults on. Only an explicitly disabled-auth development configu
 
 ## Architecture
 
+See the [Mermaid architecture diagrams and engineering decisions](docs/architecture.md)
+for private API/data boundaries, advisory-lock transactions, DST-safe calendar
+arithmetic and the synthetic public demo.
+
 The server exposes JSON/CSV endpoints under `/api/readings` and `/api/settings`. Express serves the same-origin browser UI. Routes live in `src/routes`, domain operations in `src/services`, and MySQL access in `src/db`. The date/allowance calculator uses UTC calendar-day arithmetic to avoid DST errors.
 
 The GitHub Pages demo serves only `docs/`, using `docs/demo/assets/mock-api.js` to simulate operations in local browser memory. It makes no external requests.
@@ -46,6 +52,9 @@ The dashboard uses **AdminLTE 4.10.0** by ColorlibHQ, separately **MIT-licensed*
 `npm run sync:template` refreshes the pinned AdminLTE assets and application CSS in both the real frontend and static demo. The production server requires no CDN, font service or template subscription.
 
 ## Verification
+
+The CI and local browser tests now also verify interval calculations, SVG
+chart rendering, mobile overflow, edit/delete refresh and allowance changes.
 
 **Continuous integration:** [GitHub Actions CI](https://github.com/pfirsowicz/water-allowance-tracker/actions/workflows/ci.yml) runs on every pull request into `main` and push to `main`. It uses a standard public-repository Ubuntu runner, a read-only GitHub token, and no release/deployment permissions, build artifacts or dependency cache.
 
