@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - API and database regression coverage
+
+- Extended MySQL-backed tests for rollback after real insert/update/delete statements, concurrent conflicting create/update requests, and duplicate-index integrity.
+- Added HTTP authentication-denial tests and safe error/recovery tests for SQL write and database connection failures.
+- Documented the isolated test contract and known concurrency limitations.
+
 ## Unreleased - automated verification
 
 - Added a read-only GitHub Actions workflow for PRs and main pushes on standard public-repository Ubuntu runners.
