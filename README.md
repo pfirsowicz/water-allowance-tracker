@@ -56,6 +56,8 @@ The workflow installs locked dependencies, runs the unit suite and syntax checks
 - `npm run test:browser`: offline Chrome tests at widths 1440, 768, 390 and 320 px. Tests reading creation, editing, deletion and settings and checks for horizontal overflow and external network calls.
 - Optional MySQL test: set `WATER_TEST_MYSQL=1` and the `WATER_TEST_DB_*` variables for an isolated localhost instance, nonstandard port, and fresh `water_test_*` database. Run `node --test test/integration.mysql.test.js`. It refuses non-test/default-port databases.
 
+See [integration and failure-path test coverage](docs/testing.md) for the tested concurrency, rollback, duplicate, authentication and MySQL failure scenarios.
+
 `test:browser` uses locally installed Chrome; `CHROME_EXECUTABLE` overrides its location. Playwright-core is a dev dependency and does not download a browser.
 
 ## Limitations and licence
