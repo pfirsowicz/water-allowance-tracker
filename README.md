@@ -1,48 +1,59 @@
 # Water Allowance Tracker
 
-A small full-stack application that records cumulative water meter readings, calculates daily consumption, and compares it with an allowance. Built with Node.js, Express, vanilla JavaScript, and MySQL.
+A small full-stack application for tracking cumulative meter readings and daily water allowance. Built with Node.js, Express, MySQL and vanilla JavaScript, featuring the responsive **[AdminLTE 4](https://github.com/ColorlibHQ/AdminLTE)** dashboard template.
 
-**Portfolio preparation copy:** sample dates and readings are synthetic. No production credentials, database exports, or personal readings are required.
+**[Try the interactive synthetic-data demo](https://pfirsowicz.github.io/water-allowance-tracker/)**
 
-![Interactive demo screenshot](docs/screenshot.png)
+![Waterline dashboard screenshot](docs/screenshot.png)
+
+The public demo stores synthetic readings only in browser memory. It never connects to the author's personal database or private deployment. Reloading resets its data.
 
 ## Features
 
-- Create, update, delete, list and CSV-export meter readings
-- Compare cumulative use against a configurable daily allowance
-- Validate calendar dates and cumulative meter chronology
-- Preserve the date of measurement separately from save time
-- Store baseline and allowance settings in MySQL
-- Support private access through HTTP Basic authentication
+- Dashboard KPI cards: remaining allowance, status, average and total use
+- Responsive date and water-meter reading entry
+- Validated CRUD and CSV export of reading history
+- Configurable baseline and daily litre allowance
+- Chronology protection, parameterised SQL and private Basic Auth backend
+- Self-contained, offline-capable synthetic-data demonstration
 
-## Local setup
+## Run locally
 
-Requires Node.js 22+ and MySQL 8-compatible database.
+Requires Node.js 22+ and a MySQL 8-compatible instance.
 
-1. Create an isolated database and least-privilege user.
-2. Apply `schema.sql`, and optionally `examples/sample-readings.sql` for **synthetic data only**.
-3. Copy `.env.example` to `.env` and supply local DB credentials and APP_USERNAME/APP_PASSWORD.
+1. Create an **isolated** MySQL database and a least-privilege app account.
+2. Apply `schema.sql` and optionally `examples/sample-readings.sql` in the fresh database.
+3. Copy `.env.example` to `.env`; set the local DB credentials, APP_USERNAME and APP_PASSWORD.
 4. Run `npm ci`, `npm test`, `npm run check` and `npm start`.
-5. Open `http://localhost:3000` and enter your local authentication credentials.
+5. Open `http://localhost:3000` with your local login credentials.
 
-Explicit `APP_AUTH_ENABLED=false` binds the web server to loopback only for local development. Do not expose an unauthenticated instance to the internet.
-
-## Example
-
-Synthetic baseline: 100,000 L on 1 January 2026. Daily allowance: 800 L. Reading: 103,000 L on 6 January 2026. Five calendar days allow 4,000 L; 3,000 L consumed leaves 1,000 L.
+Authentication defaults on. Only an explicitly disabled-auth development configuration binds to loopback. Never point this repository at the private production database.
 
 ## Architecture
 
-The static frontend and API share one Express process. HTTP routes live in `src/routes`, database interactions in `src/services` and `src/db`, validation in `src/lib`, and the reusable calculator in `public/assets/calculations.js`.
+The server exposes JSON/CSV endpoints under `/api/readings` and `/api/settings`. Express serves the same-origin browser UI. Routes live in `src/routes`, domain operations in `src/services`, and MySQL access in `src/db`. The date/allowance calculator uses UTC calendar-day arithmetic to avoid DST errors.
 
-Endpoints: `GET /ping` (public process health), `GET /api/health` (authenticated database health), `GET /api/readings`, `POST /api/readings`, `PATCH /api/readings/:id`, `DELETE /api/readings/:id`, `GET /api/readings/export.csv`, `GET /api/settings`, `PUT /api/settings`.
+The GitHub Pages demo serves only `docs/`, using `docs/demo/assets/mock-api.js` to simulate operations in local browser memory. It makes no external requests.
 
-Example reading input: `{"readingDate":"2026-01-06","reading":103000}`.
+A synthetic baseline of 100,000 L on 1 January 2026, 800 L/day allowance and reading of 103,000 L on 6 January means 4,000 L allowed, 3,000 L used and 1,000 L remaining.
 
-## Engineering decisions and limitations
+## Design and third-party licensing
 
-Calendar-day calculations use UTC dates to avoid NZ daylight-saving transition errors. The application validates cumulative readings against their neighbours. A unique constraint protects exact duplicate date/value records on fresh databases, but chronology validation is not yet atomic under concurrent writes. The rate limiter is per-process and not a distributed anti-abuse service. A full MySQL-backed integration suite and safely isolated browser demo are future improvements.
+The dashboard uses **AdminLTE 4.10.0** by ColorlibHQ, separately **MIT-licensed**. Only its compiled CSS/JavaScript and preserved licence notices are vendored. None of the proprietary Colorlib downloaded website templates, photos or subscription assets are included. See [template attribution](docs/template-attribution.md).
 
-**Security:** never copy the original private repository's Git history. It previously contained configuration secrets. Build the public repository from a reviewed snapshot with a completely new history. Do not expose real household data or production infrastructure. HTTPS is required for remote Basic Auth.
+`npm run sync:template` refreshes the pinned AdminLTE assets and application CSS in both the real frontend and static demo. The production server requires no CDN, font service or template subscription.
 
-**Publication status:** candidate only, not yet approved for public visibility. Complete tests, dependency installation, secret audit, and licence selection first.
+## Verification
+
+- `npm test`: calculation, validation, chronology and mock-API unit tests.
+- `npm run check`: syntax-checks application and test JavaScript.
+- `npm run test:browser`: offline Chrome tests at widths 1440, 768, 390 and 320 px. Tests reading creation, editing, deletion and settings and checks for horizontal overflow and external network calls.
+- Optional MySQL test: set `WATER_TEST_MYSQL=1` and the `WATER_TEST_DB_*` variables for an isolated localhost instance, nonstandard port, and fresh `water_test_*` database. Run `node --test test/integration.mysql.test.js`. It refuses non-test/default-port databases.
+
+`test:browser` uses locally installed Chrome; `CHROME_EXECUTABLE` overrides its location. Playwright-core is a dev dependency and does not download a browser.
+
+## Limitations and licence
+
+Mutations use a database-scoped advisory lock and transaction, protecting cooperating application requests; direct SQL writes bypassing that lock remain an exception. The rate limiter is in-process and this app is not a multi-tenant SaaS service.
+
+The repository's own code is MIT-licensed; keep the included AdminLTE third-party MIT notice when redistributing vendored assets. No historical private Git metadata or household readings are included.
