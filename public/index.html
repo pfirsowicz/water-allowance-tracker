@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Water Allowance</title>
+  <link rel="stylesheet" href="./assets/styles.css?v=4" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="header">
+      <div>
+        <h1>Water Allowance</h1>
+        <p class="sub">Track cumulative meter use against your daily allowance.</p>
+      </div>
+      <div class="version mono">v4</div>
+    </header>
+
+    <section class="card entry-card" aria-labelledby="new-reading-title">
+      <div class="section-head">
+        <div>
+          <h2 id="new-reading-title">New meter reading</h2>
+          <p class="muted" id="entryModeText">Enter the reading shown on the meter.</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label for="currentDate">Reading date</label>
+          <input id="currentDate" type="text" inputmode="numeric" autocomplete="off" placeholder="dd/mm/yyyy" />
+        </div>
+        <div>
+          <label for="currentReading">Meter reading (L)</label>
+          <input id="currentReading" type="number" inputmode="numeric" step="1" min="0" placeholder="Enter reading" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="saveBtn" type="button">Save reading</button>
+        <button id="cancelEditBtn" class="secondary hidden" type="button">Cancel edit</button>
+        <button id="resetBtn" class="secondary" type="button">Clear</button>
+      </div>
+
+      <div class="message error" id="errBox" role="alert"></div>
+      <div class="message success" id="successBox" role="status"></div>
+    </section>
+
+    <section class="summary-grid" aria-label="Water allowance summary">
+      <div class="summary-card">
+        <div class="label">Status</div>
+        <div class="summary-value" id="statusText">Enter a reading</div>
+        <div class="badge" id="statusBadge">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Remaining</div>
+        <div class="summary-value mono" id="remainingOut">—</div>
+        <div class="summary-note" id="bufferOut">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Average use</div>
+        <div class="summary-value mono" id="dailyOut">—</div>
+        <div class="summary-note" id="limitOut">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Used / allowed</div>
+        <div class="summary-value mono" id="usedAllowedOut">—</div>
+        <div class="summary-note" id="daysOut">—</div>
+      </div>
+    </section>
+
+    <section class="card progress-card">
+      <div class="progress-label">
+        <span>Usage vs cumulative allowance</span>
+        <span class="mono" id="barPct">—</span>
+      </div>
+      <div class="bar"><div class="fill" id="barFill"></div></div>
+    </section>
+
+    <details class="card settings-card" id="settingsCard">
+      <summary>
+        <span>Allowance settings</span>
+        <span class="muted" id="settingsSummary">Loading…</span>
+      </summary>
+      <div class="settings-body">
+        <div class="form-grid settings-grid">
+          <div>
+            <label for="initialDate">Baseline date</label>
+            <input id="initialDate" type="text" inputmode="numeric" autocomplete="off" placeholder="dd/mm/yyyy" />
+          </div>
+          <div>
+            <label for="initialReading">Baseline reading (L)</label>
+            <input id="initialReading" type="number" inputmode="numeric" step="1" min="0" />
+          </div>
+          <div>
+            <label for="dailyLimit">Daily allowance (L/day)</label>
+            <input id="dailyLimit" type="number" inputmode="numeric" step="1" min="1" />
+          </div>
+        </div>
+        <div class="actions settings-actions">
+          <button id="saveSettingsBtn" type="button">Save settings</button>
+        </div>
+        <p class="muted small" id="settingsMeta"></p>
+      </div>
+    </details>
+
+    <section class="card history-card">
+      <div class="section-head history-head">
+        <div>
+          <h2>Recorded readings</h2>
+          <p class="muted" id="readingsMeta">Loading…</p>
+        </div>
+        <div class="history-actions">
+          <button class="secondary compact" id="exportBtn" type="button">Export CSV</button>
+          <button class="secondary compact" id="reloadReadingsBtn" type="button">Reload</button>
+        </div>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th class="right">Reading</th>
+              <th class="right">Since previous</th>
+              <th class="right">Avg/day</th>
+              <th>Saved</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="readingsBody">
+            <tr><td colspan="6" class="muted">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="./assets/calculations.js?v=4"></script>
+  <script src="./assets/app.js?v=4"></script>
+</body>
+</html>

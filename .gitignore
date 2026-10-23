@@ -1,0 +1,23 @@
+# Local settings and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Build, logs, IDE and exports
+node_modules/
+coverage/
+*.log
+*.csv
+*.zip
+*.sql.gz
+*.bak
+.DS_Store
+Thumbs.db
+.project
+.pydevproject
+.settings/
+__pycache__/
+*.pyc
