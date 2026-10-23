@@ -15,7 +15,8 @@ The public demo stores synthetic readings only in browser memory. It never conne
 - Historical **average litres/day between consecutive meter readings**, shown in an accessible SVG bar chart against the configurable allowance. The chart never invents daily readings.
 
 - Dashboard KPI cards: remaining allowance, status, average and total use
-- Responsive date and water-meter reading entry
+- Full-width responsive dashboard with reading-entry dialog and top-right allowance settings
+- Manual date and meter-reading entry; camera capture is explicitly unavailable in the public demo
 - Validated CRUD and CSV export of reading history
 - Configurable baseline and daily litre allowance
 - Chronology protection, parameterised SQL and private Basic Auth backend
