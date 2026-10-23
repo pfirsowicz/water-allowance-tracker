@@ -9,6 +9,10 @@ test("static demo is isolated, synthetic and supports reading workflow", async (
   const root = path.resolve(__dirname, "../docs/demo");
   const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
   assert.match(html, /synthetic data only/i);
+  assert.doesNotMatch(html, /<aside\\b/i);
+  assert.match(html, /id="openSettingsBtn"/);
+  assert.match(html, /id="readingDialog"/);
+  assert.match(html, /id="photoNotice"/);
   assert.match(html, /assets\/vendor\/adminlte\.min\.css/);
   assert.match(html, /assets\/vendor\/adminlte\.min\.js/);
   assert.match(fs.readFileSync(path.join(root, "assets/vendor/ADMINLTE-LICENSE.txt"), "utf8"), /MIT License/);

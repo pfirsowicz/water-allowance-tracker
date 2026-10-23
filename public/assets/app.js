@@ -387,6 +387,9 @@ async function saveCurrentReading() {
       calculate();
     }
     showSuccess(editing ? "Reading updated." : "Reading saved.");
+    if (!editing) {
+      $("reading-history").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   } catch (err) {
     showError(err.message);
   }
@@ -414,6 +417,39 @@ async function exportCsv() {
   }
 }
 
+let dialogReturnFocus = null;
+function closeReadingDialog({ restoreFocus = true } = {}) {
+  const dialog = $("readingDialog");
+  dialog.hidden = true;
+  dialog.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("water-dialog-open");
+  if (restoreFocus && dialogReturnFocus?.isConnected) dialogReturnFocus.focus();
+}
+function openReadingDialog() {
+  dialogReturnFocus = document.activeElement;
+  $("photoNotice").hidden = true;
+  $("photoReadingText").textContent = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    ? "Take a photo with your phone (demo preview)."
+    : "Switch to your phone to take a meter photo.";
+  const dialog = $("readingDialog");
+  dialog.hidden = false;
+  dialog.setAttribute("aria-hidden", "false");
+  document.body.classList.add("water-dialog-open");
+  $("photoReadingBtn").focus();
+}
+function goToManualReading() {
+  closeReadingDialog({ restoreFocus: false });
+  $("add-reading").scrollIntoView({ behavior: "smooth", block: "start" });
+  $("currentReading").focus({ preventScroll: true });
+}
+function openSettings() {
+  const settings = $("settingsCard");
+  settings.open = true;
+  $("openSettingsBtn").setAttribute("aria-expanded", "true");
+  settings.scrollIntoView({ behavior: "smooth", block: "start" });
+  settings.querySelector("summary").focus({ preventScroll: true });
+}
+
 function bindEvents() {
   ["initialReading", "dailyLimit", "initialDate", "currentDate", "currentReading"].forEach((id) => {
     $(id).addEventListener("input", () => {
@@ -428,6 +464,23 @@ function bindEvents() {
     });
   });
 
+  $("openReadingBtn").addEventListener("click", openReadingDialog);
+  $("closeReadingBtn").addEventListener("click", () => closeReadingDialog());
+  $("readingDialog").querySelector("[data-close-reading]").addEventListener("click", () => closeReadingDialog());
+  $("photoReadingBtn").addEventListener("click", () => { $("photoNotice").hidden = false; });
+  $("manualReadingBtn").addEventListener("click", goToManualReading);
+  $("openSettingsBtn").addEventListener("click", openSettings);
+  $("settingsCard").addEventListener("toggle", () => $("openSettingsBtn").setAttribute("aria-expanded", String($("settingsCard").open)));
+  document.addEventListener("keydown", (event) => {
+    const dialog = $("readingDialog");
+    if (dialog.hidden) return;
+    if (event.key === "Escape") { event.preventDefault(); closeReadingDialog(); return; }
+    if (event.key !== "Tab") return;
+    const choices = Array.from(dialog.querySelectorAll("button:not([disabled])"));
+    const first = choices[0], last = choices[choices.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
   $("saveBtn").addEventListener("click", saveCurrentReading);
   $("resetBtn").addEventListener("click", () => {
     clearMessages();

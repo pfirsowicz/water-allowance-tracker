@@ -179,3 +179,38 @@ td.right,th.right{text-align:right}
   .usage-chart{overflow-x:auto}
   .usage-svg{min-width:500px;min-height:150px}
 }
+
+
+/* Full-width dashboard without AdminLTE sidebar. */
+body.water-no-sidebar .app-wrapper{display:block}
+body.water-no-sidebar .app-header{position:relative;margin-left:0!important;min-height:72px;padding:0 clamp(16px,3vw,44px);display:flex;align-items:center;gap:16px}
+body.water-no-sidebar .app-main{margin-left:0!important;width:100%;min-height:calc(100vh - 72px)}
+body.water-no-sidebar .water-content{width:min(100%,1590px);padding:32px clamp(16px,3vw,44px)}
+.water-header-brand{display:inline-flex;align-items:center;gap:10px;flex-shrink:0}
+.water-header-brand .water-brand-icon{font-size:21px;font-weight:bold}
+.water-header-brand .water-brand-words strong{color:#1a2945}
+.water-header-brand .water-brand-words small{color:#7890a2}
+.water-settings-link{border:1px solid #dce9e9;color:#246b68;background:#f5fbfa;border-radius:9px;padding:10px 13px;font-size:12px;font-weight:700}
+.water-settings-link:hover{background:#e7f7f3}
+.water-quick-action{border:0}
+.water-dialog[hidden],.water-photo-notice[hidden]{display:none!important}
+.water-dialog{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;padding:18px}
+.water-dialog-backdrop{position:absolute;inset:0;background:rgba(20,35,57,.6)}
+.water-dialog-panel{position:relative;z-index:1;background:#fff;border-radius:16px;width:min(100%,460px);max-height:calc(100vh - 36px);overflow:auto;padding:26px;box-shadow:0 18px 65px rgba(16,35,56,.25)}
+.water-dialog-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.water-dialog-heading h2{font-size:22px;font-weight:760;margin:6px 0;color:#1a2945}
+.water-dialog-close{background:#f0f5f6;border:0;border-radius:8px;color:#3c5063;font-size:25px;line-height:1;width:36px;height:36px}
+.water-dialog-intro{color:#6c7e8f;margin:10px 0 18px;font-size:13px}
+.water-dialog-choice{display:flex;width:100%;flex-direction:column;text-align:left;gap:6px;border:1px solid #d7e5e8;border-radius:11px;background:#fafffe;margin:11px 0;padding:16px;color:#2a4755}
+.water-dialog-choice:hover,.water-dialog-choice:focus-visible{border-color:#1da99a;background:#ecfaf6}
+.water-dialog-choice strong{font-size:15px;color:#19384a}
+.water-dialog-choice span{font-size:12px;color:#687d8b;line-height:1.5}
+.water-photo-notice{padding:12px;color:#73551a;background:#fff7e9;border:1px solid #eed9b2;border-radius:9px;font-size:12px}
+body.water-dialog-open{overflow:hidden}
+@media(max-width:480px){
+ body.water-no-sidebar .app-header{padding:10px 13px;min-height:64px}
+ .water-header-brand .water-brand-words small,.water-top-label,.water-online-dot{display:none}
+ .water-top-trailing{gap:0}
+ .water-settings-link{font-size:11px;padding:9px}
+ .water-dialog-panel{padding:20px}
+}

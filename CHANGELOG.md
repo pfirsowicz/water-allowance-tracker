@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased - streamlined reading workflow
+
+- Removed the dashboard sidebar and moved allowance settings to the top-right header.
+- Added an accessible Add reading choice dialog with demo-only photo preview and manual entry.
+- Successful new readings scroll to the history table; demo remains offline and synthetic.
+
+
 ## Unreleased - architecture diagrams and interval usage chart
 
 - Replaced outdated architecture notes with Mermaid system and transaction-flow diagrams, boundaries and engineering trade-offs.

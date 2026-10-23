@@ -7,42 +7,24 @@
   <meta name="description" content="Track water meter readings, consumption trends and allowance in a simple dashboard." />
   <title>Waterline | Water Allowance Tracker</title>
   <link rel="stylesheet" href="./assets/vendor/adminlte.min.css?v=4.10.0" />
-  <link rel="stylesheet" href="./assets/styles.css?v=5" />
+  <link rel="stylesheet" href="./assets/styles.css?v=6" />
 </head>
-<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<body class="water-no-sidebar bg-body-tertiary">
   <div class="app-wrapper">
-    <nav class="app-header navbar navbar-expand" aria-label="Top navigation">
-      <div class="water-top-leading">
-        <button type="button" class="water-sidebar-toggle" data-lte-toggle="sidebar" aria-label="Toggle sidebar">☰</button>
-        <span class="water-breadcrumb">Workspace <span>/</span> Overview</span>
-      </div>
-      <div class="water-top-trailing">
-        <span class="water-online-dot" aria-hidden="true"></span>
-        <span class="water-top-label">Water allowance tracker</span>
-      </div>
+    <nav class="app-header navbar" aria-label="Top navigation">
+      <a class="water-header-brand" href="#overview" aria-label="Waterline overview"><span class="water-brand-icon" aria-hidden="true">◉</span><span class="water-brand-words"><strong>waterline<span>.</span></strong><small>YOUR WATER WORKSPACE</small></span></a>
+      <div class="water-top-trailing"><span class="water-online-dot" aria-hidden="true"></span><span class="water-top-label">Water allowance tracker</span><button id="openSettingsBtn" type="button" class="water-settings-link" aria-controls="settingsCard" aria-expanded="false">⚙ Allowance settings</button></div>
     </nav>
-    <aside class="app-sidebar water-sidebar shadow" aria-label="Workspace navigation">
-      <div class="sidebar-brand water-brand">
-        <span class="water-brand-icon"><svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path d="M12 2c-3 4.5-7 9.3-7 13a7 7 0 0 0 14 0c0-3.7-4-8.5-7-13Zm-4 13a4 4 0 0 0 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="water-brand-words"><strong>waterline<span>.</span></strong><small>YOUR WATER WORKSPACE</small></span>
+    <div id="readingDialog" class="water-dialog" role="dialog" aria-modal="true" aria-labelledby="readingDialogTitle" aria-hidden="true" hidden>
+      <div class="water-dialog-backdrop" data-close-reading></div>
+      <div class="water-dialog-panel" tabindex="-1">
+        <div class="water-dialog-heading"><div><span class="water-eyebrow">NEW READING</span><h2 id="readingDialogTitle">Add a meter reading</h2></div><button id="closeReadingBtn" class="water-dialog-close" type="button" aria-label="Close dialog">×</button></div>
+        <p class="water-dialog-intro">Choose how to record your water meter reading.</p>
+        <button id="photoReadingBtn" class="water-dialog-choice" type="button"><strong>Take a meter photo</strong><span id="photoReadingText">Use your phone camera to capture a reading.</span></button>
+        <p id="photoNotice" class="water-photo-notice" role="status" hidden>Not available in this demo version. No camera access or image upload is performed.</p>
+        <button id="manualReadingBtn" class="water-dialog-choice" type="button"><strong>Enter manually</strong><span>Enter the date and reading using the existing form.</span></button>
       </div>
-      <div class="sidebar-wrapper">
-        <nav class="water-nav" aria-label="Dashboard sections">
-          <span class="water-nav-title">WORKSPACE</span>
-          <a href="#overview" class="water-nav-link is-active"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg><span>Overview</span></a>
-          <a href="#add-reading" class="water-nav-link "><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Add reading</span></a>
-          <a href="#reading-history" class="water-nav-link "><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5M12 7v5l3 2"/></svg><span>Reading history</span></a>
-          <span class="water-nav-title water-nav-title-later">PREFERENCES</span>
-          <a href="#settingsCard" class="water-nav-link "><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19 13 2-1-2-1-.6-2 1-2-2-2-2 1-2-.6-1-2-1 2-2 .6-2-1-2 2 1 2-.6 2-2 1 2 1 .6 2-1 2 2 2 2-1 2 .6 1 2 1-2 2-.6 2 1 2-2-1-2z"/></svg><span>Allowance settings</span></a>
-        </nav>
-        <div class="water-sidebar-help">
-          <span class="water-help-icon"><svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path d="M12 2c-3 4.5-7 9.3-7 13a7 7 0 0 0 14 0c0-3.7-4-8.5-7-13Zm-4 13a4 4 0 0 0 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <strong>Small habits, clearer insights.</strong>
-          <p>Keep a regular meter-reading record to understand your household's use.</p>
-        </div>
-      </div>
-      <div class="water-sidebar-footer">Based on the MIT-licensed AdminLTE 4 design system</div>
-    </aside>
+    </div>
     <main class="app-main" id="overview">
       <div class="water-content">
         <aside role="note" class="water-demo-notice">
@@ -56,7 +38,7 @@
             <h1>Water at a glance<span>.</span></h1>
             <p>Understand your usage. Stay on top of your allowance.</p>
           </div>
-          <a href="#add-reading" class="water-quick-action">+ Add reading</a>
+          <button id="openReadingBtn" type="button" class="water-quick-action">+ Add reading</button>
         </header>
         <section class="summary-grid" aria-label="Water allowance summary">
       <div class="summary-card">
@@ -220,6 +202,6 @@
   <script src="./assets/mock-api.js"></script>
   <script src="./assets/calculations.js?v=4"></script>
   <script src="./assets/usage-chart.js?v=1"></script>
-  <script src="./assets/app.js?v=4"></script>
+  <script src="./assets/app.js?v=5"></script>
 </body>
 </html>

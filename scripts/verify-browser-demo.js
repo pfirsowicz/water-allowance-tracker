@@ -42,11 +42,21 @@ const { chromium } = require("playwright-core");
       const measurements = await page.evaluate(() => ({
         inner: window.innerWidth,
         scroll: document.documentElement.scrollWidth,
-        sidebarText: getComputedStyle(document.querySelector('.water-nav-link[href="#add-reading"]')).color
+        sidebarCount: document.querySelectorAll(".app-sidebar").length
       }));
       assert.equal(measurements.inner, width);
       assert.ok(measurements.scroll <= width, "Page overflow at " + width + "px");
-      assert.notEqual(measurements.sidebarText, "rgb(52, 58, 64)", "Sidebar contrast regression");
+      assert.equal(measurements.sidebarCount, 0, "No sidebar must remain");
+      await page.locator("#openReadingBtn").click();
+      await page.locator("#readingDialog:not([hidden])").waitFor();
+      await page.locator("#photoReadingBtn").click();
+      assert.match(await page.locator("#photoNotice").textContent(), /Not available in this demo version/);
+      await page.keyboard.press("Escape");
+      assert.equal(await page.locator("#readingDialog").getAttribute("aria-hidden"), "true");
+      await page.locator("#openReadingBtn").click();
+      await page.locator("#manualReadingBtn").click();
+      assert.equal(await page.locator("#readingDialog").getAttribute("aria-hidden"), "true");
+      assert.equal(await page.locator("#currentReading").evaluate(el => document.activeElement === el), true);
 
       if (width === 1440 && process.env.UPDATE_SCREENSHOT === "1") {
         await page.screenshot({ path: path.join(root, "docs/screenshot.png") });
@@ -73,7 +83,7 @@ const { chromium } = require("playwright-core");
         await page.waitForFunction(() => document.querySelectorAll("#readingsBody tr").length === 4);
         assert.equal(await page.locator("#usageChart rect[data-interval-end]").count(), 4);
 
-        await page.locator("#settingsCard summary").click();
+        await page.locator("#openSettingsBtn").click();
         await page.locator("#dailyLimit").fill("850");
         await page.locator("#saveSettingsBtn").click();
         await page.waitForFunction(() => document.querySelector("#settingsSummary")?.textContent.includes("850"));
