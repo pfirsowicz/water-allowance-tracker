@@ -7,9 +7,11 @@ const files = [
   "src/middleware/rate-limit.js", "src/routes/readings.routes.js",
   "src/routes/settings.routes.js", "src/services/readings.service.js",
   "src/services/settings.service.js", "public/assets/calculations.js",
-  "public/assets/app.js", "docs/demo/assets/mock-api.js",
+  "public/assets/app.js", "public/assets/usage-chart.js",
+  "docs/demo/assets/mock-api.js", "docs/demo/assets/usage-chart.js",
   "docs/demo/assets/calculations.js", "docs/demo/assets/app.js",
   "test/integration.mysql.test.js", "test/demo.test.js",
+  "test/usage-intervals.test.js",
   "scripts/sync-template.js", "scripts/verify-browser-demo.js"
 ];
 for (const file of files) {

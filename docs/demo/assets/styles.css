@@ -153,3 +153,29 @@ td.right,th.right{text-align:right}
 .app-sidebar.water-sidebar a.water-nav-link {color:#c8d7e7!important}
 .app-sidebar.water-sidebar a.water-nav-link:hover,.app-sidebar.water-sidebar a.water-nav-link:focus-visible {color:#fff!important}
 .app-sidebar.water-sidebar a.water-nav-link.is-active{color:#ecfffa!important}
+
+/* Interval chart: offline SVG with legible ticks at mobile widths. */
+.usage-chart-card{margin-bottom:20px;padding:22px 25px}
+.usage-chart-card .section-head{align-items:center;flex-wrap:wrap}
+.usage-legend{display:flex;gap:16px;align-items:center;flex-wrap:wrap;color:#65748a;font-size:11px}
+.usage-legend span{display:inline-flex;align-items:center;gap:7px}
+.usage-legend-bar{width:13px;height:13px;background:#1caaa0;border-radius:3px}
+.usage-legend-line{width:23px;border-top:2px dashed #a07425}
+.usage-chart{margin-top:15px;max-width:100%;overflow:hidden}
+.usage-svg{display:block;width:100%;height:auto;min-height:160px}
+.usage-gridline{stroke:#e8edf2;stroke-width:1}
+.usage-axis-label,.usage-x-label{fill:#687a8d;font-size:11px}
+.usage-axis-heading{fill:#65768b;font-size:11px;font-weight:700}
+.usage-allowance-line{stroke:#a07425;stroke-width:2}
+.usage-allowance-label{fill:#8f671d;font-size:11px;font-weight:700}
+.usage-bar-under{fill:#1ba99b}
+.usage-bar-over{fill:#d6814e}
+.usage-empty{margin:20px 0 6px;color:#6e7c8d;font-size:13px}
+.usage-chart-note{font-size:11px;margin:2px 0 0}
+@media(max-width:767px){
+  .usage-chart-card{padding:18px 14px}
+  .usage-chart-card .section-head{gap:12px}
+  .usage-legend{gap:12px}
+  .usage-chart{overflow-x:auto}
+  .usage-svg{min-width:500px;min-height:150px}
+}

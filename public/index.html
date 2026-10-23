@@ -77,6 +77,21 @@
     </section>
 
 
+        <section class="card usage-chart-card" id="usage-trend" aria-labelledby="usage-heading">
+          <div class="section-head">
+            <div>
+              <h2 id="usage-heading">Consumption between readings</h2>
+              <p class="muted">Average litres per day across each measured interval, not individual daily readings.</p>
+            </div>
+            <div class="usage-legend" aria-label="Chart legend">
+              <span><i class="usage-legend-bar" aria-hidden="true"></i> Average L/day</span>
+              <span><i class="usage-legend-line" aria-hidden="true"></i> Daily allowance</span>
+            </div>
+          </div>
+          <div id="usageChart" class="usage-chart" aria-live="polite"></div>
+          <p class="muted usage-chart-note">Shows up to eight recent intervals. Hover over bars for exact values.</p>
+        </section>
+
         <div class="water-column-layout">
           <div class="water-main-column">
             <section class="card progress-card">
@@ -198,6 +213,7 @@
   </div>
   <script src="./assets/vendor/adminlte.min.js?v=4.10.0"></script>
   <script src="./assets/calculations.js?v=4"></script>
+  <script src="./assets/usage-chart.js?v=1"></script>
   <script src="./assets/app.js?v=4"></script>
 </body>
 </html>

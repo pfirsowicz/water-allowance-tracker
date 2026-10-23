@@ -98,6 +98,65 @@
     };
   }
 
+
+  // Average consumption for measured date intervals, not individual days.
+  // Same-date readings collapse to the highest cumulative reading for that date.
+  function buildUsageIntervals(readings, settings) {
+    if (!Array.isArray(readings)) throw new Error("Readings must be an array.");
+    const { baselineDate, baselineReading, dailyAllowance } = settings || {};
+    function validIso(iso) {
+      if (typeof iso !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return null;
+      return parseDDMMYYYY(isoToDDMMYYYY(iso));
+    }
+    if (!validIso(baselineDate)) throw new Error("Baseline date is invalid.");
+    if (!Number.isSafeInteger(baselineReading) || baselineReading < 0) {
+      throw new Error("Baseline meter value is invalid.");
+    }
+    if (!Number.isSafeInteger(dailyAllowance) || dailyAllowance <= 0) {
+      throw new Error("Daily allowance is invalid.");
+    }
+
+    const byDate = new Map();
+    for (const item of readings) {
+      if (!validIso(item?.readingDate) ||
+          !Number.isSafeInteger(item?.reading) || item.reading < 0) {
+        throw new Error("Reading history contains an invalid measurement.");
+      }
+      if (item.readingDate < baselineDate) continue;
+      const prior = byDate.get(item.readingDate);
+      byDate.set(item.readingDate, prior === undefined
+        ? item.reading : Math.max(prior, item.reading));
+    }
+
+    // The API limits history to 200 recent records. If truncated, do not
+    // draw a fictitious interval from the baseline to the oldest returned row.
+    const previousFromBaseline = readings.length < 200;
+    const points = [...byDate].map(([date,reading])=>({date,reading}))
+      .sort((a,b)=>a.date.localeCompare(b.date));
+    let previous = previousFromBaseline
+      ? { date: baselineDate, reading: baselineReading } : null;
+    const intervals = [];
+    for (const point of points) {
+      if (!previous) { previous = point; continue; }
+      const days = daysBetweenUTC(validIso(previous.date), validIso(point.date));
+      if (days === 0) {
+        previous = {date:point.date, reading:Math.max(previous.reading,point.reading)};
+        continue;
+      }
+      const litresUsed = point.reading - previous.reading;
+      if (days < 0 || litresUsed < 0) {
+        throw new Error("Reading history is inconsistent with cumulative meter values.");
+      }
+      intervals.push({
+        fromDate:previous.date, toDate:point.date, days,
+        litresUsed, averagePerDay:litresUsed/days,
+        allowancePerDay:dailyAllowance
+      });
+      previous=point;
+    }
+    return intervals;
+  }
+
   return {
     pad2,
     toDDMMYYYY,
@@ -106,5 +165,6 @@
     ddmmyyyyToIso,
     daysBetweenUTC,
     calculateAllowance,
+    buildUsageIntervals,
   };
 });
