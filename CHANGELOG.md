@@ -1,18 +1,15 @@
 # Changelog
 
-## Unreleased - public portfolio preparation
+## Unreleased - AdminLTE dashboard redesign
 
-- Replaced personal meter defaults with synthetic baseline values.
-- Removed obsolete Python/PyDev project artifacts.
-- Hardened authentication defaults and restricted unauthenticated use to loopback.
-- Added sample data, architecture/security notes and updated setup guidance.
-- Added a fresh-schema unique index for date/reading duplicates.
+- Replaced the minimal screen with a responsive AdminLTE 4.10.0 dashboard.
+- Added an overview sidebar, four water-usage KPI cards and an improved reading-entry workspace.
+- Retained the original app data contracts and isolated synthetic-data demo.
+- Preserved third-party MIT notices and added repeatable mobile/desktop browser testing.
+- Updated screenshot and public documentation.
 
-## v4.0.0 - 2026-09-02
+## Initial public portfolio source - 2026-10-23
 
-- Added reading-date persistence, edit/delete, settings and CSV export.
-- Added input checks and calendar/DST-focused tests.
-
-## v3
-
-- Initial same-origin Express/MySQL and static frontend.
+- Removed personal defaults, private history, environment secrets and obsolete files.
+- Added synthetic examples, validation, transactional chronology writes, automated tests and offline demo.
+- Published the independently reviewed MIT-licensed source copy.

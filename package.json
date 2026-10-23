@@ -8,7 +8,9 @@
     "start": "node src/server.js",
     "dev": "node src/server.js",
     "test": "node --test",
-    "check": "node scripts/check.js"
+    "check": "node scripts/check.js",
+    "sync:template": "node scripts/sync-template.js",
+    "test:browser": "node scripts/verify-browser-demo.js"
   },
   "engines": {
     "node": ">=22"
@@ -17,5 +19,9 @@
     "dotenv": "^16.6.1",
     "express": "^4.22.2",
     "mysql2": "^3.24.3"
+  },
+  "devDependencies": {
+    "admin-lte": "4.10.0",
+    "playwright-core": "1.56.1"
   }
 }

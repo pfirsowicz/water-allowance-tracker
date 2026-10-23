@@ -9,7 +9,8 @@ const files = [
   "src/services/settings.service.js", "public/assets/calculations.js",
   "public/assets/app.js", "docs/demo/assets/mock-api.js",
   "docs/demo/assets/calculations.js", "docs/demo/assets/app.js",
-  "test/integration.mysql.test.js", "test/demo.test.js"
+  "test/integration.mysql.test.js", "test/demo.test.js",
+  "scripts/sync-template.js", "scripts/verify-browser-demo.js"
 ];
 for (const file of files) {
   execFileSync(process.execPath, ["--check", file], { stdio: "inherit" });

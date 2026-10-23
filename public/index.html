@@ -1,23 +1,94 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="color-scheme" content="dark" />
-  <title>Water Allowance</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=4" />
+  <meta name="theme-color" content="#f5f7fb" />
+  <meta name="description" content="Track water meter readings, consumption trends and allowance in a simple dashboard." />
+  <title>Waterline | Water Allowance Tracker</title>
+  <link rel="stylesheet" href="./assets/vendor/adminlte.min.css?v=4.10.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=5" />
 </head>
-<body>
-  <main class="wrap">
-    <header class="header">
-      <div>
-        <h1>Water Allowance</h1>
-        <p class="sub">Track cumulative meter use against your daily allowance.</p>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+  <div class="app-wrapper">
+    <nav class="app-header navbar navbar-expand" aria-label="Top navigation">
+      <div class="water-top-leading">
+        <button type="button" class="water-sidebar-toggle" data-lte-toggle="sidebar" aria-label="Toggle sidebar">☰</button>
+        <span class="water-breadcrumb">Workspace <span>/</span> Overview</span>
       </div>
-      <div class="version mono">v4</div>
-    </header>
+      <div class="water-top-trailing">
+        <span class="water-online-dot" aria-hidden="true"></span>
+        <span class="water-top-label">Water allowance tracker</span>
+      </div>
+    </nav>
+    <aside class="app-sidebar water-sidebar shadow" aria-label="Workspace navigation">
+      <div class="sidebar-brand water-brand">
+        <span class="water-brand-icon"><svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path d="M12 2c-3 4.5-7 9.3-7 13a7 7 0 0 0 14 0c0-3.7-4-8.5-7-13Zm-4 13a4 4 0 0 0 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="water-brand-words"><strong>waterline<span>.</span></strong><small>YOUR WATER WORKSPACE</small></span>
+      </div>
+      <div class="sidebar-wrapper">
+        <nav class="water-nav" aria-label="Dashboard sections">
+          <span class="water-nav-title">WORKSPACE</span>
+          <a href="#overview" class="water-nav-link is-active"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg><span>Overview</span></a>
+          <a href="#add-reading" class="water-nav-link "><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Add reading</span></a>
+          <a href="#reading-history" class="water-nav-link "><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5M12 7v5l3 2"/></svg><span>Reading history</span></a>
+          <span class="water-nav-title water-nav-title-later">PREFERENCES</span>
+          <a href="#settingsCard" class="water-nav-link "><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19 13 2-1-2-1-.6-2 1-2-2-2-2 1-2-.6-1-2-1 2-2 .6-2-1-2 2 1 2-.6 2-2 1 2 1 .6 2-1 2 2 2 2-1 2 .6 1 2 1-2 2-.6 2 1 2-2-1-2z"/></svg><span>Allowance settings</span></a>
+        </nav>
+        <div class="water-sidebar-help">
+          <span class="water-help-icon"><svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path d="M12 2c-3 4.5-7 9.3-7 13a7 7 0 0 0 14 0c0-3.7-4-8.5-7-13Zm-4 13a4 4 0 0 0 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <strong>Small habits, clearer insights.</strong>
+          <p>Keep a regular meter-reading record to understand your household's use.</p>
+        </div>
+      </div>
+      <div class="water-sidebar-footer">Based on the MIT-licensed AdminLTE 4 design system</div>
+    </aside>
+    <main class="app-main" id="overview">
+      <div class="water-content">
+        <header class="water-page-head">
+          <div>
+            <span class="water-eyebrow"><span class="water-eyebrow-dot"></span> YOUR DAILY OVERVIEW</span>
+            <h1>Water at a glance<span>.</span></h1>
+            <p>Understand your usage. Stay on top of your allowance.</p>
+          </div>
+          <a href="#add-reading" class="water-quick-action">+ Add reading</a>
+        </header>
+        <section class="summary-grid" aria-label="Water allowance summary">
+      <div class="summary-card">
+        <div class="label">Status</div>
+        <div class="summary-value" id="statusText">Enter a reading</div>
+        <div class="badge" id="statusBadge">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Remaining</div>
+        <div class="summary-value mono" id="remainingOut">—</div>
+        <div class="summary-note" id="bufferOut">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Average use</div>
+        <div class="summary-value mono" id="dailyOut">—</div>
+        <div class="summary-note" id="limitOut">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Used / allowed</div>
+        <div class="summary-value mono" id="usedAllowedOut">—</div>
+        <div class="summary-note" id="daysOut">—</div>
+      </div>
+    </section>
 
-    <section class="card entry-card" aria-labelledby="new-reading-title">
+
+        <div class="water-column-layout">
+          <div class="water-main-column">
+            <section class="card progress-card">
+      <div class="progress-label">
+        <span>Usage vs cumulative allowance</span>
+        <span class="mono" id="barPct">—</span>
+      </div>
+      <div class="bar"><div class="fill" id="barFill"></div></div>
+    </section>
+
+
+            <section class="card entry-card" id="add-reading" aria-labelledby="new-reading-title">
       <div class="section-head">
         <div>
           <h2 id="new-reading-title">New meter reading</h2>
@@ -46,65 +117,23 @@
       <div class="message success" id="successBox" role="status"></div>
     </section>
 
-    <section class="summary-grid" aria-label="Water allowance summary">
-      <div class="summary-card">
-        <div class="label">Status</div>
-        <div class="summary-value" id="statusText">Enter a reading</div>
-        <div class="badge" id="statusBadge">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">Remaining</div>
-        <div class="summary-value mono" id="remainingOut">—</div>
-        <div class="summary-note" id="bufferOut">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">Average use</div>
-        <div class="summary-value mono" id="dailyOut">—</div>
-        <div class="summary-note" id="limitOut">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="label">Used / allowed</div>
-        <div class="summary-value mono" id="usedAllowedOut">—</div>
-        <div class="summary-note" id="daysOut">—</div>
-      </div>
-    </section>
 
-    <section class="card progress-card">
-      <div class="progress-label">
-        <span>Usage vs cumulative allowance</span>
-        <span class="mono" id="barPct">—</span>
-      </div>
-      <div class="bar"><div class="fill" id="barFill"></div></div>
-    </section>
-
-    <details class="card settings-card" id="settingsCard">
-      <summary>
-        <span>Allowance settings</span>
-        <span class="muted" id="settingsSummary">Loading…</span>
-      </summary>
-      <div class="settings-body">
-        <div class="form-grid settings-grid">
-          <div>
-            <label for="initialDate">Baseline date</label>
-            <input id="initialDate" type="text" inputmode="numeric" autocomplete="off" placeholder="dd/mm/yyyy" />
           </div>
-          <div>
-            <label for="initialReading">Baseline reading (L)</label>
-            <input id="initialReading" type="number" inputmode="numeric" step="1" min="0" />
-          </div>
-          <div>
-            <label for="dailyLimit">Daily allowance (L/day)</label>
-            <input id="dailyLimit" type="number" inputmode="numeric" step="1" min="1" />
+          <div class="water-aside-column">
+            <section class="water-insight-card" aria-labelledby="insight-title">
+              <span class="water-insight-icon"><svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path d="M12 2c-3 4.5-7 9.3-7 13a7 7 0 0 0 14 0c0-3.7-4-8.5-7-13Zm-4 13a4 4 0 0 0 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="water-insight-kicker">MAKE IT A HABIT</span>
+              <h2 id="insight-title">Every litre tells a story.</h2>
+              <p>Add a new reading regularly to track how quickly you're using your available water allowance.</p>
+              <div class="water-insight-decoration" aria-hidden="true"></div>
+            </section>
+            <div class="water-explainer">
+              <span class="water-explainer-dot"></span>
+              <div><strong>How it's calculated</strong><p>Your allowance grows each day from your baseline date, and each new meter reading updates the difference.</p></div>
+            </div>
           </div>
         </div>
-        <div class="actions settings-actions">
-          <button id="saveSettingsBtn" type="button">Save settings</button>
-        </div>
-        <p class="muted small" id="settingsMeta"></p>
-      </div>
-    </details>
-
-    <section class="card history-card">
+        <section class="card history-card" id="reading-history">
       <div class="section-head history-head">
         <div>
           <h2>Recorded readings</h2>
@@ -134,8 +163,40 @@
         </table>
       </div>
     </section>
-  </main>
 
+        <details class="card settings-card" id="settingsCard">
+      <summary>
+        <span>Allowance settings</span>
+        <span class="muted" id="settingsSummary">Loading…</span>
+      </summary>
+      <div class="settings-body">
+        <div class="form-grid settings-grid">
+          <div>
+            <label for="initialDate">Baseline date</label>
+            <input id="initialDate" type="text" inputmode="numeric" autocomplete="off" placeholder="dd/mm/yyyy" />
+          </div>
+          <div>
+            <label for="initialReading">Baseline reading (L)</label>
+            <input id="initialReading" type="number" inputmode="numeric" step="1" min="0" />
+          </div>
+          <div>
+            <label for="dailyLimit">Daily allowance (L/day)</label>
+            <input id="dailyLimit" type="number" inputmode="numeric" step="1" min="1" />
+          </div>
+        </div>
+        <div class="actions settings-actions">
+          <button id="saveSettingsBtn" type="button">Save settings</button>
+        </div>
+        <p class="muted small" id="settingsMeta"></p>
+      </div>
+    </details>
+
+
+        <footer class="water-footer"><span>Waterline · A water allowance tracking project</span><a href="https://github.com/pfirsowicz/water-allowance-tracker" rel="noopener noreferrer">View source ↗</a></footer>
+      </div>
+    </main>
+  </div>
+  <script src="./assets/vendor/adminlte.min.js?v=4.10.0"></script>
   <script src="./assets/calculations.js?v=4"></script>
   <script src="./assets/app.js?v=4"></script>
 </body>
