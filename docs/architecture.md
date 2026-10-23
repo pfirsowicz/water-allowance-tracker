@@ -8,5 +8,3 @@ Browser HTML/CSS/JavaScript -> same-origin Express API -> validation/services ->
 - MySQL persists readings and the configurable allowance.
 - UTC calendar-day arithmetic avoids DST boundary errors.
 - Vanilla JavaScript keeps the deployment small; no frontend build tooling required.
-
-Limitations: chronology checks are not transactional for simultaneous writers. Full database integration and browser workflow testing are not yet included.
