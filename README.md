@@ -1,5 +1,7 @@
 # Water Allowance Tracker
 
+[![CI](https://github.com/pfirsowicz/water-allowance-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/pfirsowicz/water-allowance-tracker/actions/workflows/ci.yml)
+
 A small full-stack application for tracking cumulative meter readings and daily water allowance. Built with Node.js, Express, MySQL and vanilla JavaScript, featuring the responsive **[AdminLTE 4](https://github.com/ColorlibHQ/AdminLTE)** dashboard template.
 
 **[Try the interactive synthetic-data demo](https://pfirsowicz.github.io/water-allowance-tracker/)**
@@ -44,6 +46,10 @@ The dashboard uses **AdminLTE 4.10.0** by ColorlibHQ, separately **MIT-licensed*
 `npm run sync:template` refreshes the pinned AdminLTE assets and application CSS in both the real frontend and static demo. The production server requires no CDN, font service or template subscription.
 
 ## Verification
+
+**Continuous integration:** [GitHub Actions CI](https://github.com/pfirsowicz/water-allowance-tracker/actions/workflows/ci.yml) runs on every pull request into `main` and push to `main`. It uses a standard public-repository Ubuntu runner, a read-only GitHub token, and no release/deployment permissions, build artifacts or dependency cache.
+
+The workflow installs locked dependencies, runs the unit suite and syntax checks, exercises the synthetic browser demo in Chrome, and runs the HTTP/MySQL integration test against a **fresh disposable MySQL 8 service**, with a local test-only account and database. It cannot access the private production database.
 
 - `npm test`: calculation, validation, chronology and mock-API unit tests.
 - `npm run check`: syntax-checks application and test JavaScript.
