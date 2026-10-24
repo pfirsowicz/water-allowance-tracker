@@ -39,3 +39,9 @@
 - Removed personal defaults, private history, environment secrets and obsolete files.
 - Added synthetic examples, validation, transactional chronology writes, automated tests and offline demo.
 - Published the independently reviewed MIT-licensed source copy.
+
+## 24 October 2026 — Historical MIT release retirement
+
+- The MIT-licensed `v1.1.0` GitHub Release listing and Git tag were deleted at the owner's request after current `main` had changed to All Rights Reserved.
+- The original historical commits remain accessible through Git history, and rights granted to earlier recipients under MIT were not revoked.
+- Current application code remains All Rights Reserved; separately licensed AdminLTE material remains MIT-licensed.
