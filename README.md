@@ -6,7 +6,7 @@ A small full-stack application for tracking cumulative meter readings and daily 
 
 **[Try the interactive synthetic-data demo](https://pfirsowicz.github.io/water-allowance-tracker/)** · **[Latest release: v1.1.1](https://github.com/pfirsowicz/water-allowance-tracker/releases/tag/v1.1.1)**
 
-**Public source version:** v1.1.1, All Rights Reserved. This release is a simplified portfolio demo using synthetic data, separate from the private operational application. Earlier MIT-licensed source publications remain historically licensed under their original terms.
+**Public source version:** v1.1.1, All Rights Reserved. This release is a simplified portfolio demo using synthetic data, separate from the private operational application. See the [release changelog](CHANGELOG.md). Earlier MIT-licensed source publications remain historically licensed under their original terms.
 
 ![Waterline dashboard screenshot](docs/screenshot.png)
 
