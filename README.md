@@ -57,7 +57,7 @@ The dashboard uses **AdminLTE 4.10.0** by ColorlibHQ, separately **MIT-licensed*
 The CI and local browser tests now also verify interval calculations, SVG
 chart rendering, mobile overflow, edit/delete refresh and allowance changes.
 
-**Continuous integration:** [GitHub Actions CI](https://github.com/pfirsowicz/water-allowance-tracker/actions/workflows/ci.yml) runs on every pull request into `main` and push to `main`. It uses a standard public-repository Ubuntu runner, a read-only GitHub token, and no release/deployment permissions, build artifacts or dependency cache.
+**Continuous integration:** [GitHub Actions CI](https://github.com/pfirsowicz/water-allowance-tracker/actions/workflows/ci.yml) runs on every pull request into `master` and push to `master`. It uses a standard public-repository Ubuntu runner, a read-only GitHub token, and no release/deployment permissions, build artifacts or dependency cache.
 
 The workflow installs locked dependencies, runs the unit suite and syntax checks, exercises the synthetic browser demo in Chrome, and runs the HTTP/MySQL integration test against a **fresh disposable MySQL 8 service**, with a local test-only account and database. It cannot access the private production database.
 
