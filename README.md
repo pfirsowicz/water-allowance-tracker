@@ -6,7 +6,7 @@ A small full-stack application for tracking cumulative meter readings and daily 
 
 **[Try the interactive synthetic-data demo](https://pfirsowicz.github.io/water-allowance-tracker/)** · **[Latest release: v1.1.1](https://github.com/pfirsowicz/water-allowance-tracker/releases/tag/v1.1.1)**
 
-**Public source version:** v1.1.1, All Rights Reserved. This release is a simplified portfolio demo using synthetic data, separate from the private operational application. See the [release changelog](CHANGELOG.md). Earlier MIT-licensed source publications remain historically licensed under their original terms.
+**Public source version:** v1.1.1, All Rights Reserved. This is a simplified portfolio demo using synthetic data, separate from the private operational application. See the [release changelog](CHANGELOG.md).
 
 ![Waterline dashboard screenshot](docs/screenshot.png)
 
@@ -76,4 +76,4 @@ See [integration and failure-path test coverage](docs/testing.md) for the tested
 
 Mutations use a database-scoped advisory lock and transaction, protecting cooperating application requests; direct SQL writes bypassing that lock remain an exception. The rate limiter is in-process and this app is not a multi-tenant SaaS service.
 
-**Copyright © 2026 Pawel Firsowicz. All rights reserved.** This public repository is source-available for inspection, not open-source licensed. Reuse, modification, redistribution and commercial exploitation of original application code require prior written permission. The separately MIT-licensed AdminLTE assets retain their upstream rights and notices (see [template attribution](docs/template-attribution.md)). Earlier versions published under MIT retain the grants applicable to those versions. No historical private Git metadata or household readings are included.
+**Copyright © 2026 Pawel Firsowicz. All rights reserved.** This public repository is source-available for inspection, not open-source licensed. Reuse, modification, redistribution and commercial exploitation of original application code require prior written permission. Third-party AdminLTE assets retain their upstream rights and notices (see [template attribution](docs/template-attribution.md)). No private Git metadata or household readings are included.
