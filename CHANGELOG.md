@@ -5,15 +5,12 @@
 - Published the current simplified public demo code as an All Rights Reserved source release for portfolio viewing.
 - Updated public package version metadata to match the GitHub release tag; no changes to production systems or personal database.
 - Current feature set includes the interval usage chart, responsive reading-entry dialog, transaction-safe chronology validation and automated browser/MySQL regression suites.
-- The retired MIT-era v1.1.0 release and tag are not restored. Previously granted MIT permissions remain valid for earlier obtained versions. Third-party AdminLTE assets retain their own licence.
-
 
 ## Unreleased - streamlined reading workflow
 
 - Removed the dashboard sidebar and moved allowance settings to the top-right header.
 - Added an accessible Add reading choice dialog with demo-only photo preview and manual entry.
 - Successful new readings scroll to the history table; demo remains offline and synthetic.
-
 
 ## Unreleased - architecture diagrams and interval usage chart
 
@@ -33,7 +30,6 @@
 - CI checks reproducible installation, unit tests, JavaScript syntax, offline Chrome workflows and an isolated MySQL 8 HTTP integration test.
 - Added a README build-status badge. Production deployment and data are excluded from CI.
 
-
 ## Unreleased - AdminLTE dashboard redesign
 
 - Replaced the minimal screen with a responsive AdminLTE 4.10.0 dashboard.
@@ -46,10 +42,5 @@
 
 - Removed personal defaults, private history, environment secrets and obsolete files.
 - Added synthetic examples, validation, transactional chronology writes, automated tests and offline demo.
-- Published the independently reviewed MIT-licensed source copy.
+- Prepared an independently reviewed public portfolio source copy.
 
-## 24 October 2026 — Historical MIT release retirement
-
-- The MIT-licensed `v1.1.0` GitHub Release listing and Git tag were deleted at the owner's request after current `main` had changed to All Rights Reserved.
-- The original historical commits remain accessible through Git history, and rights granted to earlier recipients under MIT were not revoked.
-- Current application code remains All Rights Reserved; separately licensed AdminLTE material remains MIT-licensed.
