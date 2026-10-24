@@ -15,6 +15,7 @@ test('real screenshot preview has valid 1200 x 630 PNG dimensions', () => {
 });
 for (const page of pages) test(page + ' includes correct share metadata', () => {
   const html = fs.readFileSync(path.join(root, page), 'utf8');
+  assert.doesNotMatch(html, /\u00e2[\u20ac\u2014\u2013]|\u00c2\u00b7|\u00c3\u2014/, 'UTF-8 characters must not be rendered as mojibake');
   for (const tag of ['og:type','og:title','og:description','og:url','og:image','og:image:width','og:image:height','og:image:alt','twitter:card','twitter:title','twitter:description','twitter:image']) {
     assert.ok(html.includes('content=') && html.includes('"' + tag + '"'), tag + ' absent');
   }
