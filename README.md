@@ -10,7 +10,7 @@ A small full-stack application for tracking cumulative meter readings and daily 
 
 ![Waterline dashboard screenshot](docs/screenshot.png)
 
-The public demo stores synthetic readings only in browser memory. It never connects to the author's personal database or private deployment. Reloading resets its data.
+The public demo stores synthetic readings only in browser memory. Reloading resets its data.
 
 ## Features
 
@@ -34,8 +34,6 @@ Requires Node.js 22+ and a MySQL 8-compatible instance.
 4. Run `npm ci`, `npm test`, `npm run check` and `npm start`.
 5. Open `http://localhost:3000` with your local login credentials.
 
-Authentication defaults on. Only an explicitly disabled-auth development configuration binds to loopback. Never point this repository at the private production database.
-
 ## Architecture
 
 See the [Mermaid architecture diagrams and engineering decisions](docs/architecture.md)
@@ -50,9 +48,9 @@ A synthetic baseline of 100,000 L on 1 January 2026, 800 L/day allowance and rea
 
 ## Design and third-party licensing
 
-The dashboard uses **AdminLTE 4.10.0** by ColorlibHQ, separately **MIT-licensed**. Only its compiled CSS/JavaScript and preserved licence notices are vendored. None of the proprietary Colorlib downloaded website templates, photos or subscription assets are included. See [template attribution](docs/template-attribution.md).
+The dashboard uses **AdminLTE 4.10.0** by ColorlibHQ, separately **MIT-licensed**. See [template attribution](docs/template-attribution.md).
 
-`npm run sync:template` refreshes the pinned AdminLTE assets and application CSS in both the real frontend and static demo. The production server requires no CDN, font service or template subscription.
+`npm run sync:template` refreshes the pinned AdminLTE assets and application CSS in both the real frontend and static demo.
 
 ## Verification
 
