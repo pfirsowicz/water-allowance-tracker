@@ -4,21 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#f5f7fb" />
-  <meta name="description" content="Track water meter readings, consumption trends and allowance in a simple dashboard." />
-  <title>Waterline | Water Allowance Tracker</title>
+<meta name="description" content="Explore water meter readings, allowance calculations and consumption trends using synthetic data. Portfolio code includes Node.js, Express, MySQL, API validation and automated tests." /> <link rel="canonical" href="https://pfirsowicz.github.io/water-allowance-tracker/" /> <meta property="og:type" content="website" /> <meta property="og:title" content="Water Allowance Tracker — Interactive Engineering Demo" /> <meta property="og:description" content="Explore water meter readings, allowance calculations and consumption trends using synthetic data. Portfolio code includes Node.js, Express, MySQL, API validation and automated tests." /> <meta property="og:url" content="https://pfirsowicz.github.io/water-allowance-tracker/" /> <meta property="og:image" content="https://pfirsowicz.github.io/water-allowance-tracker/og-preview.png" /> <meta property="og:image:width" content="1200" /> <meta property="og:image:height" content="630" /> <meta property="og:image:alt" content="Actual synthetic dashboard of WATER ALLOWANCE TRACKER" /> <meta name="twitter:card" content="summary_large_image" /> <meta name="twitter:title" content="Water Allowance Tracker — Interactive Engineering Demo" /> <meta name="twitter:description" content="Explore water meter readings, allowance calculations and consumption trends using synthetic data. Portfolio code includes Node.js, Express, MySQL, API validation and automated tests." /> <meta name="twitter:image" content="https://pfirsowicz.github.io/water-allowance-tracker/og-preview.png" />
+  <title>Water Allowance Tracker — Interactive Engineering Demo</title>
   <link rel="stylesheet" href="./assets/vendor/adminlte.min.css?v=4.10.0" />
   <link rel="stylesheet" href="./assets/styles.css?v=6" />
 </head>
 <body class="water-no-sidebar bg-body-tertiary">
   <div class="app-wrapper">
     <nav class="app-header navbar" aria-label="Top navigation">
-      <a class="water-header-brand" href="#overview" aria-label="Waterline overview"><span class="water-brand-icon" aria-hidden="true">◉</span><span class="water-brand-words"><strong>waterline<span>.</span></strong><small>YOUR WATER WORKSPACE</small></span></a>
-      <div class="water-top-trailing"><span class="water-online-dot" aria-hidden="true"></span><span class="water-top-label">Water allowance tracker</span><button id="openSettingsBtn" type="button" class="water-settings-link" aria-controls="settingsCard" aria-expanded="false">⚙ Allowance settings</button></div>
+      <a class="water-header-brand" href="#overview" aria-label="Waterline overview"><span class="water-brand-icon" aria-hidden="true">â—‰</span><span class="water-brand-words"><strong>waterline<span>.</span></strong><small>YOUR WATER WORKSPACE</small></span></a>
+      <div class="water-top-trailing"><span class="water-online-dot" aria-hidden="true"></span><span class="water-top-label">Water allowance tracker</span><button id="openSettingsBtn" type="button" class="water-settings-link" aria-controls="settingsCard" aria-expanded="false">âš™ Allowance settings</button></div>
     </nav>
     <div id="readingDialog" class="water-dialog" role="dialog" aria-modal="true" aria-labelledby="readingDialogTitle" aria-hidden="true" hidden>
       <div class="water-dialog-backdrop" data-close-reading></div>
       <div class="water-dialog-panel" tabindex="-1">
-        <div class="water-dialog-heading"><div><span class="water-eyebrow">NEW READING</span><h2 id="readingDialogTitle">Add a meter reading</h2></div><button id="closeReadingBtn" class="water-dialog-close" type="button" aria-label="Close dialog">×</button></div>
+        <div class="water-dialog-heading"><div><span class="water-eyebrow">NEW READING</span><h2 id="readingDialogTitle">Add a meter reading</h2></div><button id="closeReadingBtn" class="water-dialog-close" type="button" aria-label="Close dialog">Ã—</button></div>
         <p class="water-dialog-intro">Choose how to record your water meter reading.</p>
         <button id="photoReadingBtn" class="water-dialog-choice" type="button"><strong>Take a meter photo</strong><span id="photoReadingText">Use your phone camera to capture a reading.</span></button>
         <p id="photoNotice" class="water-photo-notice" role="status" hidden>Not available in this demo version. No camera access or image upload is performed.</p>
@@ -29,7 +29,7 @@
       <div class="water-content">
         <aside role="note" class="water-demo-notice">
           <span class="water-demo-notice-dot" aria-hidden="true"></span>
-          <div><strong>Interactive public demo — synthetic data only</strong>
+          <div><strong>Interactive public demo â€” synthetic data only</strong>
           <p>Entries stay in this browser session and reset on reload. No account, database or backend is connected.</p></div>
         </aside>
         <header class="water-page-head">
@@ -44,22 +44,22 @@
       <div class="summary-card">
         <div class="label">Status</div>
         <div class="summary-value" id="statusText">Enter a reading</div>
-        <div class="badge" id="statusBadge">—</div>
+        <div class="badge" id="statusBadge">â€”</div>
       </div>
       <div class="summary-card">
         <div class="label">Remaining</div>
-        <div class="summary-value mono" id="remainingOut">—</div>
-        <div class="summary-note" id="bufferOut">—</div>
+        <div class="summary-value mono" id="remainingOut">â€”</div>
+        <div class="summary-note" id="bufferOut">â€”</div>
       </div>
       <div class="summary-card">
         <div class="label">Average use</div>
-        <div class="summary-value mono" id="dailyOut">—</div>
-        <div class="summary-note" id="limitOut">—</div>
+        <div class="summary-value mono" id="dailyOut">â€”</div>
+        <div class="summary-note" id="limitOut">â€”</div>
       </div>
       <div class="summary-card">
         <div class="label">Used / allowed</div>
-        <div class="summary-value mono" id="usedAllowedOut">—</div>
-        <div class="summary-note" id="daysOut">—</div>
+        <div class="summary-value mono" id="usedAllowedOut">â€”</div>
+        <div class="summary-note" id="daysOut">â€”</div>
       </div>
     </section>
 
@@ -84,7 +84,7 @@
             <section class="card progress-card">
       <div class="progress-label">
         <span>Usage vs cumulative allowance</span>
-        <span class="mono" id="barPct">—</span>
+        <span class="mono" id="barPct">â€”</span>
       </div>
       <div class="bar"><div class="fill" id="barFill"></div></div>
     </section>
@@ -139,7 +139,7 @@
       <div class="section-head history-head">
         <div>
           <h2>Recorded readings</h2>
-          <p class="muted" id="readingsMeta">Loading…</p>
+          <p class="muted" id="readingsMeta">Loadingâ€¦</p>
         </div>
         <div class="history-actions">
           <button class="secondary compact" id="exportBtn" type="button">Export CSV</button>
@@ -160,7 +160,7 @@
             </tr>
           </thead>
           <tbody id="readingsBody">
-            <tr><td colspan="6" class="muted">Loading…</td></tr>
+            <tr><td colspan="6" class="muted">Loadingâ€¦</td></tr>
           </tbody>
         </table>
       </div>
@@ -169,7 +169,7 @@
         <details class="card settings-card" id="settingsCard">
       <summary>
         <span>Allowance settings</span>
-        <span class="muted" id="settingsSummary">Loading…</span>
+        <span class="muted" id="settingsSummary">Loadingâ€¦</span>
       </summary>
       <div class="settings-body">
         <div class="form-grid settings-grid">
@@ -194,7 +194,7 @@
     </details>
 
 
-        <footer class="water-footer"><span>Waterline · A water allowance tracking project</span><a href="https://github.com/pfirsowicz/water-allowance-tracker" rel="noopener noreferrer">View source ↗</a></footer>
+        <footer class="water-footer"><span>Waterline Â· A water allowance tracking project</span><a href="https://github.com/pfirsowicz/water-allowance-tracker" rel="noopener noreferrer">View source â†—</a></footer>
       </div>
     </main>
   </div>
