@@ -1,21 +1,17 @@
-name: Publish GitHub Release
+name: Verify GitHub Release
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+  verify:
+    runs-on: ubuntu-24.04
     steps:
-      - name: Publish release from signed tag
+      - name: Confirm current public demo release
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          gh release create "${GITHUB_REF_NAME}" --verify-tag --title "Water Allowance Tracker ${GITHUB_REF_NAME}" --generate-notes
+          gh release list --limit 5
