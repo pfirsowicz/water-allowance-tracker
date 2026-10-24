@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches: [main]
+    branches: [master]
 
 # The workflow does not publish packages, push code, or access repository secrets.
 permissions:
