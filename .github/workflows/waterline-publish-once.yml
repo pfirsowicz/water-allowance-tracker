@@ -1,0 +1,68 @@
+name: Publish Waterline v1.1.1 (one-time)
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+permissions:
+  contents: read
+jobs:
+  release:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Publish current verified All Rights Reserved release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          current="$(gh api "repos/$GH_REPO/git/ref/heads/main" --jq '.object.sha')"
+          if [[ "$current" != "$SHA" ]]; then
+            echo "Main moved after CI; abort release"
+            exit 1
+          fi
+          gh api "repos/$GH_REPO/contents/LICENSE?ref=main" --jq '.content' | base64 -d | grep -qi 'All rights reserved'
+          if gh api "repos/$GH_REPO/git/ref/tags/v1.1.0" >/dev/null 2>&1 ||
+             gh api "repos/$GH_REPO/releases/tags/v1.1.0" >/dev/null 2>&1; then
+            echo "Retired MIT-era release/tag unexpectedly exists; abort"
+            exit 1
+          fi
+          if gh api "repos/$GH_REPO/git/ref/tags/v1.1.1" >/dev/null 2>&1 ||
+             gh api "repos/$GH_REPO/releases/tags/v1.1.1" >/dev/null 2>&1; then
+            echo "v1.1.1 already exists; manual verification required before retry"
+            exit 1
+          fi
+          gh api "repos/$GH_REPO/contents/package.json?ref=main" --jq '.content' | base64 -d | grep -q '"version": "1.1.1"'
+          cat > "$RUNNER_TEMP/waterline-release-notes.md" <<'NOTES'
+          ## Water Allowance Tracker v1.1.1 — All Rights Reserved
+
+          This release publishes the current **simplified public portfolio demonstration** of the author's existing water-allowance application.
+
+          **Included:** a responsive reading-entry workflow, allowance settings, date-aware historical reading management, an interval-average litres/day chart (rather than invented daily measurements), CSV export, a Node.js/Express/MySQL sample backend, and automated browser, validation, concurrency, rollback and authentication tests.
+
+          **Demonstration boundary:** the hosted GitHub Pages version uses synthetic visitor-local readings only. It does not connect to the author's private operational website or production MySQL database. The standalone local backend requires isolated MySQL and is not publicly deployed.
+
+          **Copyright © 2026 Pawel Firsowicz. All rights reserved.** The original application source is publicly viewable for portfolio evaluation. No permission is granted to reuse, modify, redistribute, sell or commercially deploy the original code without prior written permission. Refer to LICENSE.
+
+          **Third-party licences:** vendored AdminLTE 4 assets remain under their own MIT licence, and their notices are preserved.
+
+          **Historical licensing:** the earlier MIT-era v1.1.0 GitHub Release and tag were retired at the owner's request. That action does not revoke permissions already granted to recipients of that earlier version. The historical commits remain in Git history.
+
+          GitHub release v1.1.1 is the public-demo publication version, distinct from versions of the separate private operational application.
+          NOTES
+          gh release create v1.1.1 --repo "$GH_REPO" --target "$SHA" --title 'Water Allowance Tracker v1.1.1 — All Rights Reserved' --notes-file "$RUNNER_TEMP/waterline-release-notes.md" --latest
+          actual="$(gh api "repos/$GH_REPO/git/ref/tags/v1.1.1" --jq '.object.sha')"
+          if [[ "$actual" != "$SHA" ]]; then
+            echo "Tag does not match CI-tested main"
+            exit 1
+          fi
+          gh release view v1.1.1 --repo "$GH_REPO" --json tagName,isDraft,isPrerelease --jq 'select(.tagName=="v1.1.1" and (.isDraft|not) and (.isPrerelease|not)) | .tagName' | grep -qx 'v1.1.1'
+          echo "Published and verified current All Rights Reserved release v1.1.1"
