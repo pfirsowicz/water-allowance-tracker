@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.1 — 24 October 2026 (All Rights Reserved)
+
+- Published the current simplified public demo code as an All Rights Reserved source release for portfolio viewing.
+- Updated public package version metadata to match the GitHub release tag; no changes to production systems or personal database.
+- Current feature set includes the interval usage chart, responsive reading-entry dialog, transaction-safe chronology validation and automated browser/MySQL regression suites.
+- The retired MIT-era v1.1.0 release and tag are not restored. Previously granted MIT permissions remain valid for earlier obtained versions. Third-party AdminLTE assets retain their own licence.
+
+
 ## Unreleased - streamlined reading workflow
 
 - Removed the dashboard sidebar and moved allowance settings to the top-right header.
