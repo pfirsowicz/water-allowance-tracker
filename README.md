@@ -70,8 +70,8 @@ See [integration and failure-path test coverage](docs/testing.md) for the tested
 
 `test:browser` uses locally installed Chrome; `CHROME_EXECUTABLE` overrides its location. Playwright-core is a dev dependency and does not download a browser.
 
-## Limitations and licence
+## Limitations and copyright
 
 Mutations use a database-scoped advisory lock and transaction, protecting cooperating application requests; direct SQL writes bypassing that lock remain an exception. The rate limiter is in-process and this app is not a multi-tenant SaaS service.
 
-The repository's own code is MIT-licensed; keep the included AdminLTE third-party MIT notice when redistributing vendored assets. No historical private Git metadata or household readings are included.
+**Copyright © 2026 Pawel Firsowicz. All rights reserved.** This public repository is source-available for inspection, not open-source licensed. Reuse, modification, redistribution and commercial exploitation of original application code require prior written permission. The separately MIT-licensed AdminLTE assets retain their upstream rights and notices (see [template attribution](docs/template-attribution.md)). Earlier versions published under MIT retain the grants applicable to those versions. No historical private Git metadata or household readings are included.
