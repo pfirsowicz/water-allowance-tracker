@@ -2,7 +2,9 @@
 
 [![CI](https://github.com/pfirsowicz/water-allowance-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/pfirsowicz/water-allowance-tracker/actions/workflows/ci.yml)
 
-A small full-stack application for tracking cumulative meter readings and daily water allowance. Built with Node.js, Express, MySQL and vanilla JavaScript, featuring the responsive **[AdminLTE 4](https://github.com/ColorlibHQ/AdminLTE)** dashboard template.
+**Engineering case study:** Preserving consistent cumulative meter readings under concurrent changes, calculating allowance over calendar days and testing database failure paths.
+
+A Node.js/Express, MySQL and vanilla JavaScript application for a practical household tracking need. The responsive interface uses **[AdminLTE 4](https://github.com/ColorlibHQ/AdminLTE)**; the main engineering focus is the data model and its correctness.
 
 **[Try the interactive synthetic-data demo](https://pfirsowicz.github.io/water-allowance-tracker/)** · **[Latest release: v1.2.0](https://github.com/pfirsowicz/water-allowance-tracker/releases/tag/v1.2.0)**
 
@@ -10,7 +12,20 @@ A small full-stack application for tracking cumulative meter readings and daily 
 
 ![Waterline dashboard screenshot](docs/screenshot.png)
 
-The public demo stores synthetic readings only in browser memory. Reloading resets its data.
+## Engineering decisions and evidence
+
+- **Consistent cumulative history:** Create, edit and delete operations check neighbouring readings within transactions protected by a MySQL advisory lock. Integration tests check concurrent chronology conflicts, duplicates, rollback and recovery. [Readings service](src/services/readings.service.js) · [MySQL integration tests](test/integration.mysql.test.js).
+- **Calendar-day arithmetic:** Daily allowances use UTC calendar-date differences rather than elapsed wall-clock hours, avoiding daylight-saving distortions. The usage chart shows averages across observed intervals; it does **not** invent readings for unmeasured days. [Calculation code](public/assets/calculations.js) · [Interval tests](test/usage-intervals.test.js).
+- **Defensible limits:** The advisory lock covers participating app writers, not arbitrary direct SQL; Basic Auth is a single-user private gate, not multi-user identity management. [Architecture and trade-offs](docs/architecture.md) · [Failure-path coverage](docs/testing.md).
+
+## Operational context and public scope
+
+I maintain a **separate private water-tracking application** for personal use. The requirements represented here come from tracking real cumulative readings and understanding consumption against a daily allowance. This public repository is a deliberately simplified, inspectable implementation with synthetic examples. It is **not** the private production repository or its deployment, and no household readings or private credentials are included.
+
+## Two distinct runtime modes
+
+- **Hosted GitHub Pages demo:** Static browser code with a synthetic, in-memory API adapter. Readings reset on reload; there is **no hosted backend, shared database or production connection**.
+- **Locally runnable full-stack application:** Node.js/Express with an isolated MySQL database, JSON/CSV routes, validation and tests. These backend operations are **not running on GitHub Pages**. See [local setup](#run-locally) and [architecture](docs/architecture.md).
 
 ## Features
 
